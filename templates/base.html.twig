@@ -13,18 +13,18 @@
 	<body>
 		<div id="main-container">
 			<nav>
-				<a href="index.html" id="logo">
+				<a href="{{ path('projet') }}" id="logo">
 					<img src="images/logo.png" alt="Logo TaskLinker"/>
 				</a>
 				<ul id="main-menu">
-					<li class="active">
-						<a href="index.html">
+					<li class="{% block activeProjet %}{% endblock %}">
+						<a href="{{ path('projet') }}">
 							<i class="fa-solid fa-list-check"></i>
 							Projets
 						</a>
 					</li>
-					<li>
-						<a href="employes.html">
+					<li class="{% block activeEquipe %}{% endblock %}">
+						<a href="{{ path('equipe') }}">
 							<i class="fa-regular fa-user"></i>
 							Équipe
 						</a>
@@ -35,7 +35,9 @@
 				<header>
 					<div id="current-user"></div>
 					<div id="title-page">
-						<h1>Projets</h1>
+						<h1>
+							{% block headerTitle %}{% endblock %}
+						</h1>
 					</div>
 				</header>
 				<div id="content"> {% block body %}{% endblock %}
