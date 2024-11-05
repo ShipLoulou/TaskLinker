@@ -2,13 +2,22 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Project;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use App\Entity\Project;
+use App\Entity\Employee;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
+    protected $encoder;
+
+    public function __construct(UserPasswordHasherInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
@@ -20,6 +29,22 @@ class AppFixtures extends Fixture
                 ->setDeadline($faker->dateTimeBetween('now', '+6 months'))
                 ->setArchive($faker->boolean((33)));
             $manager->persist($project);
+        }
+
+        $typesContract = ['CDI', 'CDD', 'Freelance'];
+
+        for ($index = 0; $index < 3; $index++) {
+            $employee = new Employee();
+            $hash = $this->encoder->hashPassword($employee, 'password');
+            $employee->setEmail($faker->email())
+                ->setFirstName($faker->firstName())
+                ->setLastName($faker->lastName())
+                ->setRoles(['ROLE_EMPLOYEE'])
+                ->setContract($faker->randomElement($typesContract))
+                ->setArrivalDate($faker->dateTimeBetween('-9 months', 'now'))
+                ->setActive($faker->boolean((75)))
+                ->setPassword($hash);
+            $manager->persist($employee);
         }
 
         $manager->flush();
