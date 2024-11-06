@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\EmployeeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -18,6 +19,7 @@ class Employee implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank(message: "L'email de l'employé est obligatoire.")]
     private ?string $email = null;
 
     /**
@@ -33,19 +35,23 @@ class Employee implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le nom de l'employé est obligatoire.")]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le prénom de l'employé est obligatoire.")]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le contrat de l'employé doit être indiqué.")]
     private ?string $contract = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $arrival_date = null;
 
     #[ORM\Column]
     private ?bool $active = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message: "La date d'entrée doit être renseigné.")]
+    private ?\DateTimeInterface $arrival_date = null;
 
     public function getId(): ?int
     {
@@ -57,7 +63,7 @@ class Employee implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(?string $email): static
     {
         $this->email = $email;
 
@@ -127,7 +133,7 @@ class Employee implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): static
+    public function setLastName(?string $lastName): static
     {
         $this->lastName = $lastName;
 
@@ -139,7 +145,7 @@ class Employee implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): static
+    public function setFirstName(?string $firstName): static
     {
         $this->firstName = $firstName;
 
@@ -151,21 +157,9 @@ class Employee implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->contract;
     }
 
-    public function setContract(string $contract): static
+    public function setContract(?string $contract): static
     {
         $this->contract = $contract;
-
-        return $this;
-    }
-
-    public function getArrivalDate(): ?\DateTimeInterface
-    {
-        return $this->arrival_date;
-    }
-
-    public function setArrivalDate(\DateTimeInterface $arrival_date): static
-    {
-        $this->arrival_date = $arrival_date;
 
         return $this;
     }
@@ -178,6 +172,18 @@ class Employee implements UserInterface, PasswordAuthenticatedUserInterface
     public function setActive(bool $active): static
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    public function getArrivalDate(): ?\DateTimeInterface
+    {
+        return $this->arrival_date;
+    }
+
+    public function setArrivalDate(?\DateTimeInterface $arrival_date): static
+    {
+        $this->arrival_date = $arrival_date;
 
         return $this;
     }

@@ -415,6 +415,17 @@ form {
     width: 320px;
 }
 
+form div ul li {
+    width: 100%;
+    text-align: center;
+    background: #ed143d36;
+    color: red;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
 form label {
     font-size: 16px;
     line-height: 22px;
