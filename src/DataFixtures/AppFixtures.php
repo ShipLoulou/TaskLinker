@@ -22,12 +22,17 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
+        $projects = [];
+
         for ($index = 0; $index < 2; $index++) {
             $project = new Project();
             $project->setName($faker->realText(mt_rand(20, 50)))
                 ->setStartDate($faker->dateTimeBetween('-6 months', 'now'))
                 ->setDeadline($faker->dateTimeBetween('now', '+6 months'))
                 ->setArchive($faker->boolean((33)));
+
+            $projects[] = $project;
+
             $manager->persist($project);
         }
 
@@ -44,6 +49,13 @@ class AppFixtures extends Fixture
                 ->setArrivalDate($faker->dateTimeBetween('-9 months', 'now'))
                 ->setActive($faker->boolean((75)))
                 ->setPassword($hash);
+
+            $selectedProjects = $faker->randomElements($projects, mt_rand(1, 2));
+
+            foreach ($selectedProjects as $project) {
+                $employee->addProject($project);
+            }
+
             $manager->persist($employee);
         }
 
