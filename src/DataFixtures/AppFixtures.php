@@ -110,7 +110,7 @@ class AppFixtures extends Fixture
 
         // Création des tâches.
         foreach ($projects as $project) {
-            for ($index = 0; $index < random_int(2, 5); $index++) {
+            for ($index = 0; $index < 4; $index++) {
                 $task = new Task();
                 $task->setTitle($faker->realText(mt_rand(15, 20)))
                     ->setDescription($faker->realText(mt_rand(40, 60)))
@@ -119,16 +119,13 @@ class AppFixtures extends Fixture
                     ->setStatus($faker->randomElement($arrayStatus))
                     ->setProject($project);
 
-                // for ($otherIndex = 0; $otherIndex < random_int(1, 2); $otherIndex++) {
-                //     $task->addTag($project);
-                // }
-
                 $arrayTask[] = $task;
 
                 $manager->persist($task);
             }
         }
 
+        // Création des créneaux.
         foreach ($arrayTask as $task) {
             for ($index = 0; $index < random_int(0, 3); $index++) {
 

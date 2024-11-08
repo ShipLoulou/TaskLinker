@@ -81,9 +81,9 @@ class Task
         return $this;
     }
 
-    public function getDeadline(): ?\DateTimeInterface
+    public function getDeadline(): ?string
     {
-        return $this->deadline;
+        return $this->deadline->format('d/m/Y');
     }
 
     public function setDeadline(\DateTimeInterface $deadline): static

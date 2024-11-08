@@ -5,39 +5,46 @@
 {% endblock %}
 
 {% block headerTitle %}
-	Projets
+	{{ project.name }}
 {% endblock %}
 
 {% block activeProjet %}
 	active
 {% endblock %}
 
+{% block stylesheets %}../
+{% endblock %}
+
+{% block srcImg %}../
+{% endblock %}
+
 {% block body %}
 
+	<div id="tasks-container">
+		{% for key, task in taskPerStatus %}
+			<div class="task-column">
+				<h2>{{ key }}</h2>
+				<div class="tasks-list">
+					{% for i in 0..task|length - 1 %}
+						<a class="task" href="tache.html">
+							<h3>{{ task[i].title }}</h3>
+							<p>{{ task[i].description }}</p>
+							<div class="task-infos">
+								<div class="task-deadline">
+									<i class="fa-regular fa-calendar"></i>
+									{{ task[i].deadline }}
+								</div>
+							</div>
+						</a>
+					{% endfor %}
 
-	<div id="projects-container">
-		{% for project in projects %}
-			<article class="card-project">
-				<a href="projet.html">
-					<h2>{{ project.name }}</h2>
-				</a>
-				<div class="card-project-icons">
-					<a href="projet-edit.html">
-						<i class="fa-solid fa-pen"></i>
-					</a>
-					<a href="#">
-						<i class="fa-solid fa-trash"></i>
+					<a href="tache-add.html" class="task-add">
+						+ Ajouter une tâche
 					</a>
 				</div>
-			</article>
+			</div>
 		{% endfor %}
-		<article class="card-project">
-			<a href="projet-add.html">
-				<i class="fa-solid fa-circle-plus add-project-icon"></i>
-				<h2>Ajouter un projet</h2>
-			</a>
-		</article>
-	</div>
 
+	</div>
 
 {% endblock %}
