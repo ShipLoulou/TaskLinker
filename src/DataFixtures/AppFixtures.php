@@ -3,8 +3,12 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
+use App\Entity\Tag;
+use App\Entity\Status;
 use App\Entity\Project;
 use App\Entity\Employee;
+use App\Entity\Slot;
+use App\Entity\Task;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -22,8 +26,10 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
+        // Tableau contenant tous les projets.
         $projects = [];
 
+        // Création des projets.
         for ($index = 0; $index < 2; $index++) {
             $project = new Project();
             $project->setName($faker->realText(mt_rand(20, 50)))
@@ -36,8 +42,13 @@ class AppFixtures extends Fixture
             $manager->persist($project);
         }
 
+        // Tableau des différents types de contrat possible (exemple).
         $typesContract = ['CDI', 'CDD', 'Freelance'];
 
+        // Tableau contenant tous les employés.
+        $employees = [];
+
+        // Création des employés.
         for ($index = 0; $index < 3; $index++) {
             $employee = new Employee();
             $hash = $this->encoder->hashPassword($employee, 'password');
@@ -56,8 +67,83 @@ class AppFixtures extends Fixture
                 $employee->addProject($project);
             }
 
+            $employees[] = $employee;
+
             $manager->persist($employee);
         }
+
+        // Tableau des différents libellé possible (exemple).
+        $libelleStatus = ['A faire', 'En cours', 'Terminer', 'En attente de vérification'];
+
+        // Tableau contenant tous les statuts.
+        $arrayStatus = [];
+
+        // Création des statuts.
+        foreach ($projects as $project) {
+            for ($index = 0; $index < random_int(1, 3); $index++) {
+                $status = new Status();
+                $status->setLibelle($faker->randomElement($libelleStatus))
+                    ->setProject($project);
+
+                $arrayStatus[] = $status;
+
+                $manager->persist($status);
+            }
+        }
+
+        // Tableau des différents libellé possibles (exemple).
+        $libelleTag = ['UX', 'Frontend', 'Backend'];
+
+        // Création des tags associé au projet.
+        foreach ($projects as $project) {
+            for ($index = 0; $index < random_int(1, 2); $index++) {
+                $tag = new Tag();
+                $tag->setLibelle($faker->randomElement($libelleTag))
+                    ->setProject($project);
+
+                $manager->persist($tag);
+            }
+        }
+
+        // Tableau contenant toutes les taches.
+        $arrayTask = [];
+
+        // Création des tâches.
+        foreach ($projects as $project) {
+            for ($index = 0; $index < random_int(2, 5); $index++) {
+                $task = new Task();
+                $task->setTitle($faker->realText(mt_rand(15, 20)))
+                    ->setDescription($faker->realText(mt_rand(40, 60)))
+                    ->setDeadline($faker->dateTimeBetween('now', '+2 months'))
+                    ->setEmployee($faker->randomElement($employees))
+                    ->setStatus($faker->randomElement($arrayStatus))
+                    ->setProject($project);
+
+                // for ($otherIndex = 0; $otherIndex < random_int(1, 2); $otherIndex++) {
+                //     $task->addTag($project);
+                // }
+
+                $arrayTask[] = $task;
+
+                $manager->persist($task);
+            }
+        }
+
+        foreach ($arrayTask as $task) {
+            for ($index = 0; $index < random_int(0, 3); $index++) {
+
+                $selectedEmployee = $faker->randomElement($employees);
+
+                $slot = new Slot();
+                $slot->setTask($task)
+                    ->setEmployee($selectedEmployee)
+                    ->setStart($faker->dateTimeBetween('-7 days', 'now'))
+                    ->setEnd($faker->dateTimeBetween('-5 days', 'now'));
+
+                $manager->persist($slot);
+            }
+        }
+
 
         $manager->flush();
     }
