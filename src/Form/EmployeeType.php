@@ -18,8 +18,6 @@ class EmployeeType extends AbstractType
             ->add('lastName', TextType::class, [
                 'label' => 'Nom',
                 'attr' => [
-                    'class' => 'required',
-                    'id' => 'employe_nom',
                     'maxlength' => '255'
                 ],
                 'required' => false
@@ -27,8 +25,6 @@ class EmployeeType extends AbstractType
             ->add('firstName', TextType::class, [
                 'label' => 'Prenom',
                 'attr' => [
-                    'class' => 'required',
-                    'id' => 'employe_prenom',
                     'maxlength' => '255'
                 ],
                 'required' => false
@@ -36,8 +32,6 @@ class EmployeeType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'Email',
                 'attr' => [
-                    'class' => 'required',
-                    'id' => 'employe_email',
                     'maxlength' => '255'
                 ],
                 'required' => false
@@ -46,8 +40,6 @@ class EmployeeType extends AbstractType
                 'widget' => 'single_text',
                 'label' => 'Date d\'entrée',
                 'attr' => [
-                    'class' => 'required',
-                    'id' => 'employe_dateArrivee',
                     'maxlength' => '255'
                 ],
                 'required' => false
@@ -55,8 +47,6 @@ class EmployeeType extends AbstractType
             ->add('contract', TextType::class, [
                 'label' => 'Statut',
                 'attr' => [
-                    'class' => 'required',
-                    'id' => 'employe_statut',
                     'maxlength' => '255'
                 ],
                 'required' => false

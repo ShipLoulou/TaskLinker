@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+	Projets
+{% endblock %}
+
+{% block headerTitle %}
+	Créer une tâche
+{% endblock %}
+
+{% block activeProjet %}
+	active
+{% endblock %}
+
+{% block stylesheets %}../../../
+{% endblock %}
+
+{% block srcImg %}../../../
+{% endblock %}
+
+{% block body %}
+
+	{{ form_start(formView) }}
+
+	{{ form_errors(formView) }}
+
+	{{ form_row(formView.title) }}
+	{{ form_row(formView.description) }}
+	{{ form_row(formView.deadline) }}
+
+	{{ form_row(formView.status) }}
+	{{ form_row(formView.employee) }}
+	<button class="button button-submit">Ajouter</button>
+
+	{{ form_end(formView) }}
+
+{% endblock %}

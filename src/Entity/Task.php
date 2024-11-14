@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
@@ -17,21 +18,26 @@ class Task
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le titre de la tache est obligatoire.")]
     private ?string $title = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deadline = null;
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
+    // #[ORM\Column(nullable: true)]
     private ?Employee $employee = null;
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
+    // #[ORM\Column(nullable: false)]
+    #[Assert\NotBlank(message: "Le status de la tache est obligatoire.")]
     private ?Status $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
+    // #[ORM\Column(nullable: false)]
     private ?Project $project = null;
 
     /**
@@ -81,12 +87,20 @@ class Task
         return $this;
     }
 
-    public function getDeadline(): ?string
+    public function getDeadline(): ?\DateTimeInterface
     {
+        return $this->deadline;
+    }
+
+    public function getDeadlineString(): ?string
+    {
+        if (!$this->deadline) {
+            return null;
+        }
         return $this->deadline->format('d/m/Y');
     }
 
-    public function setDeadline(\DateTimeInterface $deadline): static
+    public function setDeadline(?\DateTimeInterface $deadline): static
     {
         $this->deadline = $deadline;
 

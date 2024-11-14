@@ -73,16 +73,16 @@ class AppFixtures extends Fixture
         }
 
         // Tableau des différents libellé possible (exemple).
-        $libelleStatus = ['A faire', 'En cours', 'Terminer', 'En attente de vérification'];
+        $libelleStatus = ['A faire', 'En cours', 'En attente de vérification', 'Terminer'];
 
         // Tableau contenant tous les statuts.
         $arrayStatus = [];
 
         // Création des statuts.
         foreach ($projects as $project) {
-            for ($index = 0; $index < random_int(1, 3); $index++) {
+            for ($index = 0; $index < 4; $index++) {
                 $status = new Status();
-                $status->setLibelle($faker->randomElement($libelleStatus))
+                $status->setLibelle($libelleStatus[$index])
                     ->setProject($project);
 
                 $arrayStatus[] = $status;
