@@ -46,11 +46,16 @@ class ProjectController extends AbstractController
             $taskPerStatus[$task->getStatus()->getLibelle()][] = $task;
         }
 
-        // dd($taskPerStatus);
+        $listEmployee = [];
+
+        foreach ($project->getEmployee() as $employee) {
+            $listEmployee[] = $employee;
+        }
 
         return $this->render('project.html.twig', [
             'project' => $project,
-            'taskPerStatus' => $taskPerStatus
+            'taskPerStatus' => $taskPerStatus,
+            'listEmployee' => $listEmployee
         ]);
     }
 }

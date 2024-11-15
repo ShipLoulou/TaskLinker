@@ -34,15 +34,12 @@
 			<main>
 				<header>
 					<div id="current-user"></div>
-					<div id="title-page">
-						<h1>
-							{% block headerTitle %}{% endblock %}
-						</h1>
-					</div>
-				</header>
-				<div id="content"> {% block body %}{% endblock %}
-					</div>
-				</main>
-			</div>
-		</body>
-	</html>
+					<div id="title-page"> {% block headerTitle %}{% endblock %}
+						</div>
+					</header>
+					<div id="content"> {% block body %}{% endblock %}
+						</div>
+					</main>
+				</div>
+			</body>
+		</html>

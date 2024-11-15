@@ -5,7 +5,16 @@
 {% endblock %}
 
 {% block headerTitle %}
-	{{ project.name }}
+	<div class="flex-header">
+		<h1>{{ project.name }}</h1>
+		<div class="user-list">
+			{% for item in listEmployee %}
+				<div class="avatar">{{ item.firstName | slice(0, 1) }}{{ item.lastName | slice(0, 1) }}</div>
+
+			{% endfor %}
+		</div>
+		<a class="button" href="projet-edit.html">Modifier</a>
+	</div>
 {% endblock %}
 
 {% block activeProjet %}
@@ -30,10 +39,17 @@
 							<h3>{{ task[i].title }}</h3>
 							<p>{{ task[i].description }}</p>
 							<div class="task-infos">
-								<div class="task-deadline">
-									<i class="fa-regular fa-calendar"></i>
-									{{ task[i].deadlinestring }}
-								</div>
+								{% if task[i].deadlinestring %}
+									<div class="task-deadline">
+										<i class="fa-regular fa-calendar"></i>
+										{{ task[i].deadlinestring }}
+									</div>
+								{% endif %}
+								{% if task[i].employee %}
+									<div class="mini-user">
+										{{ task[i].employee.firstName | slice(0, 1) }}{{ task[i].employee.lastName | slice(0, 1) }}
+									</div>
+								{% endif %}
 							</div>
 						</a>
 					{% endfor %}

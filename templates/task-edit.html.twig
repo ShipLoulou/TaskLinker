@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block headerTitle %}
-	Gestion des droit d'accès
+	<h1>Gestion des droit d'accès</h1>
 {% endblock %}
 
 {% block activeProjet %}
@@ -34,33 +34,33 @@
 
 	{{ form_end(formView) }}
 	{# <form name="tache" method="post">
-								<div>
-									<label for="tache_titre" class="required">Titre de la tâche</label><input type="text" id="tache_titre" name="tache[titre]" required="required"/></div>
-								<div>
-									<label for="tache_description">Description</label>
-									<textarea id="tache_description" name="tache[description]"></textarea>
-								</div>
-								<div class="flex-form">
 									<div>
-										<label for="tache_deadline">Date</label><input type="date" id="tache_deadline" name="tache[deadline]"/></div>
+										<label for="tache_titre" class="required">Titre de la tâche</label><input type="text" id="tache_titre" name="tache[titre]" required="required"/></div>
 									<div>
-										<label for="tache_statut" class="required">Statut</label>
-										<select id="tache_statut" name="tache[statut]">
-											<option value="13">To Do</option>
-											<option value="14">Doing</option>
-											<option value="15">Done</option>
+										<label for="tache_description">Description</label>
+										<textarea id="tache_description" name="tache[description]"></textarea>
+									</div>
+									<div class="flex-form">
+										<div>
+											<label for="tache_deadline">Date</label><input type="date" id="tache_deadline" name="tache[deadline]"/></div>
+										<div>
+											<label for="tache_statut" class="required">Statut</label>
+											<select id="tache_statut" name="tache[statut]">
+												<option value="13">To Do</option>
+												<option value="14">Doing</option>
+												<option value="15">Done</option>
+											</select>
+										</div>
+									</div>
+									<div>
+										<label for="tache_employe">Membre</label>
+										<select id="tache_employe" name="tache[employe]">
+											<option value=""></option>
+											<option value="13">Natalie Dillon</option>
+											<option value="14">Demi Baker</option>
 										</select>
 									</div>
-								</div>
-								<div>
-									<label for="tache_employe">Membre</label>
-									<select id="tache_employe" name="tache[employe]">
-										<option value=""></option>
-										<option value="13">Natalie Dillon</option>
-										<option value="14">Demi Baker</option>
-									</select>
-								</div>
-								<br>
-								<button class="button button-submit">Ajouter</button>
-							</form> #}
+									<br>
+									<button class="button button-submit">Ajouter</button>
+								</form> #}
 {% endblock %}
