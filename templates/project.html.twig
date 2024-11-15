@@ -13,7 +13,7 @@
 
 			{% endfor %}
 		</div>
-		<a class="button" href="projet-edit.html">Modifier</a>
+		<a class="button" href="{{ path('edit_project', {'id': project.id}) }}">Modifier</a>
 	</div>
 {% endblock %}
 

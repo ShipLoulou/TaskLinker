@@ -22,11 +22,11 @@ class Project
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $start_date = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $deadline = null;
 
-    #[ORM\Column]
-    private ?bool $archive = null;
+    #[ORM\Column(nullable: true)]
+    private ?bool $archive = false;
 
     /**
      * @var Collection<int, Employee>

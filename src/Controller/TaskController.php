@@ -33,8 +33,6 @@ class TaskController extends AbstractController
             throw $this->createNotFoundException("La tâche demandé n'existe pas.");
         }
 
-        // dd($task);
-
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);

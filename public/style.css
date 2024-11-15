@@ -493,6 +493,7 @@ form .select2-container--default .select2-selection--multiple .select2-selection
     height: 24px;
     padding-left: 5px;
     padding-right: 20px;
+    width: fit-content;
 }
 
 form .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {

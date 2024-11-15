@@ -56,7 +56,7 @@ class TaskType extends AbstractType
             ])
             ->add('employee', EntityType::class, [
                 'class' => Employee::class,
-                'choice_label' => 'firstName',
+                'choice_label' => fn(Employee $employee) => $employee->getFirstName() . ' ' . $employee->getLastName(),
                 'placeholder' => '-- associer un employer --',
                 'required' => false
             ])
