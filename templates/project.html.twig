@@ -30,6 +30,14 @@
 {% block body %}
 
 	<div id="tasks-container">
+		{% if taskPerStatus == null %}
+			<div class="task-column">
+				<a href="{{ path('add_task', {'id_project': project.id}) }}" class="task-add">
+					+ Ajouter une tâche
+				</a>
+			</div>
+		{% endif %}
+
 		{% for key, task in taskPerStatus %}
 			<div class="task-column">
 				<h2>{{ key }}</h2>

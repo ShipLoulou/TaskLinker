@@ -19,7 +19,8 @@ class ProjectType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Titre du projet'
+                'label' => 'Titre du projet',
+                'required' => false
             ])
             // ->add('start_date', null, [
             //     'widget' => 'single_text',
@@ -36,7 +37,8 @@ class ProjectType extends AbstractType
                 'by_reference' => false,
                 'attr' => [
                     'class' => 'select-employee'
-                ]
+                ],
+                'required' => false
                 // 'query_builder' => function (EmployeeRepository $er) use ($idTest) {
                 //     return $er->createQueryBuilder('e')
                 //         ->where('e.project = :project')

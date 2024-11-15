@@ -43,11 +43,12 @@
 						<a class="button button-edit-team" href="{{ path('edit_employee', {'id': employee.id}) }}">
 							Éditer
 						</a>
-						<a class="delete-team" href="{{ path('delete_employee', {'id': employee.id}) }}">
+						<a class="delete-team" href="{{ path('delete_employee', {'id': employee.id}) }}" onclick="return confirm('Êtes-vous sur de vouloir supprimer cette employer ?')">
 							Supprimer
 						</a>
 					</td>
 				</tr>
+
 			{% endfor %}
 		</tbody>
 	</table>

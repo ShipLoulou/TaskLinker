@@ -30,12 +30,12 @@ class AppFixtures extends Fixture
         $projects = [];
 
         // Création des projets.
-        for ($index = 0; $index < 2; $index++) {
+        for ($index = 0; $index < 4; $index++) {
             $project = new Project();
             $project->setName($faker->realText(mt_rand(20, 50)))
                 ->setStartDate($faker->dateTimeBetween('-6 months', 'now'))
                 ->setDeadline($faker->dateTimeBetween('now', '+6 months'))
-                ->setArchive($faker->boolean((33)));
+                ->setArchive($faker->boolean((25)));
 
             $projects[] = $project;
 
@@ -66,21 +66,21 @@ class AppFixtures extends Fixture
             foreach ($selectedProjects as $project) {
                 $employee->addProject($project);
             }
-
             $employees[] = $employee;
+
 
             $manager->persist($employee);
         }
 
         // Tableau des différents libellé possible (exemple).
-        $libelleStatus = ['A faire', 'En cours', 'En attente de vérification', 'Terminer'];
+        $libelleStatus = ['To Do', 'Doing', 'Done'];
 
         // Tableau contenant tous les statuts.
         $arrayStatus = [];
 
         // Création des statuts.
         foreach ($projects as $project) {
-            for ($index = 0; $index < 4; $index++) {
+            for ($index = 0; $index < 3; $index++) {
                 $status = new Status();
                 $status->setLibelle($libelleStatus[$index])
                     ->setProject($project);

@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Status;
 use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
+use App\Repository\StatusRepository;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,20 +18,22 @@ class ProjectController extends AbstractController
     protected $twig;
     protected $projectRepository;
     protected $taskRepository;
+    protected $statusRepository;
     protected $em;
 
-    public function __construct(Environment $twig, ProjectRepository $projectRepository, TaskRepository $taskRepository, EntityManagerInterface $em)
+    public function __construct(Environment $twig, ProjectRepository $projectRepository, TaskRepository $taskRepository, EntityManagerInterface $em, StatusRepository $statusRepository)
     {
         $this->twig = $twig;
         $this->projectRepository = $projectRepository;
         $this->taskRepository = $taskRepository;
+        $this->statusRepository = $statusRepository;
         $this->em = $em;
     }
 
     #[Route('/projets', name: 'projects')]
     public function showProjects()
     {
-        $projects = $this->projectRepository->findAll();
+        $projects = $this->projectRepository->findBy(['archive' => false]);
 
         return $this->render('projects.html.twig', [
             'projects' => $projects
@@ -97,15 +101,39 @@ class ProjectController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $project = $form->getData();
             $project->setStartDate(new \DateTime());
             $this->em->persist($project);
+
+            $libelleStatus = ['To Do', 'Doing', 'Done'];
+
+            foreach ($libelleStatus as $libelle) {
+                $status = new Status();
+                $status->setLibelle($libelle)
+                    ->setProject($project);
+
+                $this->em->persist($status);
+            }
+
             $this->em->flush();
-            return $this->redirectToRoute('projects');
+            return $this->redirectToRoute('project', ['id' => $project->getId()]);
         }
 
         return $this->render('project-add.html.twig', [
             'formView' => $form->createView()
         ]);
+    }
+
+    #[Route('/project/{id}/archiving', name: 'archiving_project')]
+    public function archivingProject($id)
+    {
+        $project = $this->projectRepository->find($id);
+
+        $project->setArchive(true);
+
+        $this->em->flush();
+
+        return $this->redirectToRoute('projects');
     }
 }

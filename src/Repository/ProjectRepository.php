@@ -16,6 +16,16 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
+    public function findByProject($projectId)
+    {
+        return $this->createQueryBuilder('e')
+            ->innerJoin('e.projects', 'p') // Assuming the ManyToMany relation is named "projects"
+            ->where('p.id = :projectId')
+            ->setParameter('projectId', $projectId)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Project[] Returns an array of Project objects
     //     */

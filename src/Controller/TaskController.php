@@ -70,4 +70,20 @@ class TaskController extends AbstractController
             'formView' => $form->createView()
         ]);
     }
+
+    #[Route('projet/{id_project}/tache/{id}/delete', name: 'delete_task')]
+    public function deleteTask($id, $id_project)
+    {
+        $task = $this->taskRepository->find($id);
+
+        if (!$task) {
+            throw $this->createNotFoundException("La tache demandé n'existe pas.");
+        }
+
+        $this->em->remove($task);
+
+        $this->em->flush();
+
+        return $this->redirectToRoute('project', ['id' => $id_project]);
+    }
 }
