@@ -120,7 +120,7 @@ class AppFixtures extends Fixture
                 ;
 
                 foreach ($employeesPerProject as $key => $value) {
-                    if ($key == $project->getId()) {
+                    if ($key === $project->getId()) {
                         $task->setEmployee($faker->randomElement($value));
                     }
                 }
