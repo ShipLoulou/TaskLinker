@@ -40,10 +40,10 @@
 					</td>
 					<td>{{ employee.contract }}</td>
 					<td>
-						<a class="button button-edit-team" href="{{ path('edit_employee', {'id': employee.id}) }}">
+						<a class="button button-edit-team" href="{{ path('app_edit_employee', {'id': employee.id}) }}">
 							Éditer
 						</a>
-						<a class="delete-team" href="{{ path('delete_employee', {'id': employee.id}) }}" onclick="return confirm('Êtes-vous sur de vouloir supprimer cette employer ?')">
+						<a class="delete-team" href="{{ path('app_delete_employee', {'id': employee.id}) }}" onclick="return confirm('Êtes-vous sur de vouloir supprimer cette employer ?')">
 							Supprimer
 						</a>
 					</td>

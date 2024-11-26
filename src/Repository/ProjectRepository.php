@@ -16,14 +16,24 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
-    public function findByProject($projectId)
+    public function findByProject($projectId): array
     {
         return $this->createQueryBuilder('e')
-            ->innerJoin('e.projects', 'p') // Assuming the ManyToMany relation is named "projects"
+            ->innerJoin('e.projects', 'p')
             ->where('p.id = :projectId')
             ->setParameter('projectId', $projectId)
             ->getQuery()
             ->getResult();
+    }
+
+    public function  findByArchiveStatus($value): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.archive = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     //    /**

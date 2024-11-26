@@ -47,9 +47,10 @@ class AppFixtures extends Fixture
 
         // Tableau contenant tous les employés.
         $employees = [];
+        $employeesPerProject = [];
 
         // Création des employés.
-        for ($index = 0; $index < 3; $index++) {
+        for ($index = 0; $index < 15; $index++) {
             $employee = new Employee();
             $hash = $this->encoder->hashPassword($employee, 'password');
             $employee->setEmail($faker->email())
@@ -65,6 +66,7 @@ class AppFixtures extends Fixture
 
             foreach ($selectedProjects as $project) {
                 $employee->addProject($project);
+                $employeesPerProject[$project->getId()][] = $employee;
             }
             $employees[] = $employee;
 
@@ -110,13 +112,19 @@ class AppFixtures extends Fixture
 
         // Création des tâches.
         foreach ($projects as $project) {
-            for ($index = 0; $index < 4; $index++) {
+            for ($index = 0; $index < mt_rand(2, 6); $index++) {
                 $task = new Task();
                 $task->setTitle($faker->realText(mt_rand(15, 20)))
                     ->setDescription($faker->realText(mt_rand(40, 60)))
                     ->setDeadline($faker->dateTimeBetween('now', '+2 months'))
-                    ->setEmployee($faker->randomElement($employees))
-                    ->setStatus($faker->randomElement($arrayStatus))
+                ;
+
+                foreach ($employeesPerProject as $key => $value) {
+                    if ($key == $project->getId()) {
+                        $task->setEmployee($faker->randomElement($value));
+                    }
+                }
+                $task->setStatus($faker->randomElement($arrayStatus))
                     ->setProject($project);
 
                 $arrayTask[] = $task;

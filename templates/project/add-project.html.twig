@@ -5,17 +5,15 @@
 {% endblock %}
 
 {% block headerTitle %}
-	<h1>{{ project.name }}</h1>
+	<h1>Nouveau projet</h1>
 {% endblock %}
 
 {% block activeProjet %}
 	active
 {% endblock %}
 
-{% block stylesheets %}../../../
-{% endblock %}
-
-{% block srcImg %}../../../
+{% block stylesheets %}
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 {% endblock %}
 
 {% block body %}
@@ -27,7 +25,7 @@
 	{{ form_row(formView.name) }}
 	{{ form_row(formView.employee) }}
 
-	<button class="button button-submit">Modifier</button>
+	<button class="button button-submit">Continuer</button>
 
 	{{ form_end(formView) }}
 

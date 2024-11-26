@@ -23,10 +23,9 @@ class TaskController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('projet/{id_project}/tache/{id}', name: 'edit_task', priority: -1)]
+    #[Route('projet/{id_project}/tache/{id}', name: 'app_edit_task', priority: -1)]
     public function editTask($id, Request $request)
     {
-
         $task = $this->taskRepository->find($id);
 
         if (!$task) {
@@ -40,16 +39,16 @@ class TaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->flush();
 
-            return $this->redirectToRoute('projects');
+            return $this->redirectToRoute('app_projects');
         }
 
-        return $this->render('task-edit.html.twig', [
+        return $this->render('task/edit-task.html.twig', [
             'task' => $task,
             'formView' => $form->createView()
         ]);
     }
 
-    #[Route('projet/{id_project}/tache/create', name: 'add_task')]
+    #[Route('projet/{id_project}/tache/create', name: 'app_add_task')]
     public function addTask(Request $request, $id_project)
     {
         $project = $this->projectRepository->find($id_project);
@@ -63,15 +62,15 @@ class TaskController extends AbstractController
             $task->setProject($project);
             $this->em->persist($task);
             $this->em->flush();
-            return $this->redirectToRoute('projects');
+            return $this->redirectToRoute('app_projects');
         }
 
-        return $this->render('task-add.html.twig', [
+        return $this->render('task/add-task.html.twig', [
             'formView' => $form->createView()
         ]);
     }
 
-    #[Route('projet/{id_project}/tache/{id}/delete', name: 'delete_task')]
+    #[Route('projet/{id_project}/tache/{id}/delete', name: 'app_delete_task')]
     public function deleteTask($id, $id_project)
     {
         $task = $this->taskRepository->find($id);
@@ -84,6 +83,6 @@ class TaskController extends AbstractController
 
         $this->em->flush();
 
-        return $this->redirectToRoute('project', ['id' => $id_project]);
+        return $this->redirectToRoute('app_one_project', ['id' => $id_project]);
     }
 }

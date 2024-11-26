@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class TeamController extends AbstractController
+class EmployeeController extends AbstractController
 {
     protected $twig;
     protected $employeeRepository;
@@ -29,17 +29,17 @@ class TeamController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('/equipe', name: 'equipe')]
+    #[Route('/equipe', name: 'app_employees')]
     public function showTeam()
     {
         $employees = $this->employeeRepository->findAll();
 
-        return $this->render('team.html.twig', [
+        return $this->render('employee/employees.html.twig', [
             'employees' => $employees
         ]);
     }
 
-    #[Route('/equipe/edition/{id}', name: 'edit_employee')]
+    #[Route('/equipe/edition/{id}', name: 'app_edit_employee')]
     public function createEmployee($id, Request $request)
     {
         $employee = $this->employeeRepository->find($id);
@@ -55,16 +55,16 @@ class TeamController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->flush();
 
-            return $this->redirectToRoute('equipe');
+            return $this->redirectToRoute('app_employees');
         }
 
-        return $this->render('employee-edit.html.twig', [
+        return $this->render('employee/edit-employee.html.twig', [
             'employee' => $employee,
             'formView' => $form->createView()
         ]);
     }
 
-    #[Route('/equipe/delete/{id}', name: 'delete_employee')]
+    #[Route('/equipe/delete/{id}', name: 'app_delete_employee')]
     public function deleteEmployee($id)
     {
         $employee = $this->employeeRepository->find($id);
@@ -81,7 +81,6 @@ class TeamController extends AbstractController
         if ($tasks) {
             foreach ($tasks as $task) {
                 $task->setEmployee(null);
-                // $this->em->remove($task->getEmployee());
             }
         }
 
@@ -93,6 +92,6 @@ class TeamController extends AbstractController
 
         $this->em->flush();
 
-        return $this->redirectToRoute('equipe');
+        return $this->redirectToRoute('app_employees');
     }
 }

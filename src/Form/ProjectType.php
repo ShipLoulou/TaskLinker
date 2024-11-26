@@ -39,22 +39,6 @@ class ProjectType extends AbstractType
                     'class' => 'select-employee'
                 ],
                 'required' => false
-                // 'query_builder' => function (EmployeeRepository $er) use ($idTest) {
-                //     return $er->createQueryBuilder('e')
-                //         ->where('e.project = :project')
-                //         ->setParameter('project', $idTest);
-                // },
-                // 'choice_attr' => function ($choice) use ($options) {
-                //     if (
-                //         $options['data']->getEmployee() instanceof Collection
-                //         && $choice instanceof Employee
-                //     ) {
-                //         if ($options['data']->getEmployee()->contains($choice)) {
-                //             return ['selected' => 'selected'];
-                //         }
-                //     }
-                //     return [];
-                // }
             ])
         ;
     }

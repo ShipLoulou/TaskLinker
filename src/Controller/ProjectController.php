@@ -30,24 +30,21 @@ class ProjectController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('/projets', name: 'projects')]
+    #[Route('/', name: 'app_projects')]
     public function showProjects()
     {
-        $projects = $this->projectRepository->findBy(['archive' => false]);
-
-        return $this->render('projects.html.twig', [
+        $projects = $this->projectRepository->findByArchiveStatus(false);
+        return $this->render('project/projects.html.twig', [
             'projects' => $projects
         ]);
     }
 
-    #[Route('/projet/{id}', name: 'project', priority: -1)]
+    #[Route('/projet/{id}', name: 'app_one_project', priority: -1)]
     public function showProject($id)
     {
         $project = $this->projectRepository->find($id);
 
-        $tasks = $this->taskRepository->findBy([
-            'project' => $project->getId()
-        ], ['status' => 'DESC']);
+        $tasks = $this->taskRepository->findByProject($project);
 
         $taskPerStatus = [];
 
@@ -61,14 +58,14 @@ class ProjectController extends AbstractController
             $listEmployee[] = $employee;
         }
 
-        return $this->render('project.html.twig', [
+        return $this->render('project/one-project.html.twig', [
             'project' => $project,
             'taskPerStatus' => $taskPerStatus,
             'listEmployee' => $listEmployee
         ]);
     }
 
-    #[Route('/projet/{id}/edit', name: 'edit_project')]
+    #[Route('/projet/{id}/edit', name: 'app_edit_project')]
     public function editProject($id, Request $request)
     {
         $project = $this->projectRepository->find($id);
@@ -87,13 +84,13 @@ class ProjectController extends AbstractController
             return $this->redirectToRoute('projects');
         }
 
-        return $this->render('project-edit.html.twig', [
+        return $this->render('project/edit-project.html.twig', [
             'project' => $project,
             'formView' => $form->createView()
         ]);
     }
 
-    #[Route('/projet/add', name: 'add_project')]
+    #[Route('/projet/add', name: 'app_add_project')]
     public function addProject(Request $request)
     {
         $form = $this->createForm(ProjectType::class);
@@ -117,15 +114,15 @@ class ProjectController extends AbstractController
             }
 
             $this->em->flush();
-            return $this->redirectToRoute('project', ['id' => $project->getId()]);
+            return $this->redirectToRoute('app_one_project', ['id' => $project->getId()]);
         }
 
-        return $this->render('project-add.html.twig', [
+        return $this->render('project/add-project.html.twig', [
             'formView' => $form->createView()
         ]);
     }
 
-    #[Route('/project/{id}/archiving', name: 'archiving_project')]
+    #[Route('/project/{id}/archiving', name: 'app_archiving_project')]
     public function archivingProject($id)
     {
         $project = $this->projectRepository->find($id);
@@ -134,6 +131,6 @@ class ProjectController extends AbstractController
 
         $this->em->flush();
 
-        return $this->redirectToRoute('projects');
+        return $this->redirectToRoute('app_projects');
     }
 }

@@ -12,12 +12,6 @@
 	active
 {% endblock %}
 
-{% block stylesheets %}../../../
-{% endblock %}
-
-{% block srcImg %}../../../
-{% endblock %}
-
 {% block body %}
 
 	{{ form_start(formView) }}
@@ -32,7 +26,7 @@
 	{{ form_row(formView.employee) }}
 	<button class="button button-submit">Ajouter</button>
 
-	<a href="{{ path('delete_task', {'id': task.id, 'id_project': task.project.id }) }}" class="delete-task">Supprimer la tâche</a>
+	<a href="{{ path('app_delete_task', {'id': task.id, 'id_project': task.project.id }) }}" class="delete-task">Supprimer la tâche</a>
 	{{ form_end(formView) }}
 
 {% endblock %}
