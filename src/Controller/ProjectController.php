@@ -46,7 +46,11 @@ class ProjectController extends AbstractController
 
         $tasks = $this->taskRepository->findByProject($project);
 
-        $taskPerStatus = [];
+        $taskPerStatus = [
+            "To Do" => [],
+            "Doing" => [],
+            "Done" => [],
+        ];
 
         foreach ($tasks as $task) {
             $taskPerStatus[$task->getStatus()->getLibelle()][] = $task;
